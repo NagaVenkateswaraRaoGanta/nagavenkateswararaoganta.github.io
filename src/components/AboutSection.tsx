@@ -1,62 +1,55 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, BookOpen } from "lucide-react";
+import { GraduationCap, BookOpen, CalendarDays, MapPin, Trophy } from "lucide-react";
 import aboutPhoto from "@/assets/about-photo.jpg";
+import { revealTransition, revealViewport, sectionReveal } from "@/lib/motion";
+import PortraitFrame from "@/components/PortraitFrame";
 
 const education = [
   {
-    degree: "B.Tech – Civil Engineering",
-    school: "Pragati Engineering College (Autonomous), Surampalem, AP",
+    level: "Undergraduate",
+    degree: "B.Tech - Civil Engineering, CSE Minor",
+    school: "Pragati Engineering College (Autonomous)",
+    location: "Surampalem, Andhra Pradesh",
     score: "CGPA: 8.61",
-    year: "Expected June 2026",
+    year: "2026",
   },
   {
+    level: "Higher Secondary",
     degree: "Intermediate",
-    school: "Sri Chaitanya Junior College, Kakinada",
+    school: "Sri Chaitanya Junior College",
+    location: "Kakinada, Andhra Pradesh",
     score: "85.1%",
     year: "2022",
   },
   {
+    level: "Secondary School",
     degree: "SSC",
-    school: "Madhuri Vidyalaya, Gollaprolu",
+    school: "Madhuri Vidyalaya",
+    location: "Gollaprolu, Andhra Pradesh",
     score: "89.3%",
     year: "2020",
   },
 ];
 
-const TiltCard = ({ children, className }: { children: React.ReactNode; className?: string }) => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+const educationContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
-    setTilt({ x: y, y: x });
-  };
-
-  return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-      style={{
-        transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        transition: "transform 0.3s ease",
-      }}
-      className={className}
-    >
-      {children}
-    </div>
-  );
+const educationCard = {
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
+  visible: { opacity: 1, y: 0, scale: 1 },
 };
 
 const AboutSection = () => (
   <section id="about" className="py-20 bg-section-grey">
     <div className="container mx-auto px-6">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={revealViewport}
+        transition={revealTransition}
       >
         <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">
           About <span className="text-primary">Me</span>
@@ -65,59 +58,97 @@ const AboutSection = () => (
 
         {/* Photo + Bio layout like reference */}
         <div className="grid lg:grid-cols-[auto_1fr] gap-10 mb-12 items-start">
-          <TiltCard className="shrink-0">
-            <div className="relative w-52 h-64 md:w-64 md:h-80 mx-auto lg:mx-0">
-              <img
-                src={aboutPhoto}
-                alt="Venkateswara Rao"
-                className="w-full h-full object-cover rounded-lg"
-              />
-              {/* Accent border like reference */}
-              <div className="absolute -left-2 top-2 bottom-2 w-1 bg-primary rounded-full" />
-              <div className="absolute left-2 right-2 -bottom-2 h-1 bg-destructive rounded-full" />
-            </div>
-          </TiltCard>
+          <PortraitFrame
+            src={aboutPhoto}
+            alt="Ganta Naga Venkateswara Rao"
+            className="w-52 h-64 md:w-64 md:h-80 mx-auto lg:mx-0 shrink-0"
+          />
 
           <div className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              I'm a passionate aspiring Software Engineer with deep interests in Cloud Computing, Artificial Intelligence, and Software Development. Currently pursuing my B.Tech in Civil Engineering at Pragati Engineering College (Autonomous), I combine my engineering background with modern technology to build efficient and impactful digital solutions.
+              I'm Ganta Naga Venkateswara Rao, a results-driven engineering graduate with hands-on experience in Salesforce CRM, SAP ABAP, Python, Java, SQL, cloud platforms and modern web development. Alongside my Civil Engineering degree, I completed a CSE minor and built a focused software engineering profile.
             </p>
             <p>
-              I enjoy solving problems, developing scalable applications, and exploring emerging technologies. My learning journey includes working on software projects, automation tools, and innovative solutions that focus on improving efficiency and usability.
+              I develop business applications, automate workflows and build data-driven products using Salesforce, SAP, FastAPI, React and AI technologies. My recent work spans repository intelligence, enterprise CRM automation, computer vision and OCR systems.
             </p>
             <p>
-              I have also earned certifications in cloud and AI technologies, which helped me gain a better understanding of modern computing environments and intelligent systems.
+              My professional certifications include Salesforce Platform Developer, SAP ABAP Cloud, Google Cloud Associate Cloud Engineer, ServiceNow CSA and other cloud, CRM and security credentials.
             </p>
             <p>
-              I am committed to continuous learning, collaboration, and innovation, and I aim to grow as a software engineer building scalable, intelligent, and user-focused applications.
+              I am seeking software engineering opportunities where I can contribute across full-stack development, cloud, AI and enterprise platforms while continuing to learn and ship useful products.
             </p>
           </div>
         </div>
 
         {/* Education */}
-        <div>
-          <h3 className="font-heading text-xl font-semibold mb-4 flex items-center gap-2">
-            <GraduationCap size={20} className="text-primary" /> Education
-          </h3>
-          <div className="grid md:grid-cols-3 gap-4">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-background/70 p-5 md:p-7">
+          <div className="absolute -right-14 -top-14 w-40 h-40 rounded-full bg-primary/5 subtle-float pointer-events-none" />
+
+          <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+            <div>
+              <h3 className="font-heading text-2xl font-semibold flex items-center gap-3">
+                <span className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <GraduationCap size={21} className="text-primary" />
+                </span>
+                Education
+              </h3>
+              <p className="text-sm text-muted-foreground mt-2 sm:ml-[52px]">My academic journey and qualifications</p>
+            </div>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="h-1 w-20 bg-primary rounded-full origin-left"
+            />
+          </div>
+
+          <motion.div
+            variants={educationContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="relative grid md:grid-cols-3 gap-5"
+          >
             {education.map((e, i) => (
-              <TiltCard key={i}>
-                <div className="bg-background rounded-lg p-4 border border-border hover:shadow-lg hover:border-primary/30 transition-all">
-                  <div className="flex items-start gap-3">
-                    <BookOpen size={16} className="text-primary mt-1 shrink-0" />
-                    <div>
-                      <p className="font-medium text-foreground">{e.degree}</p>
-                      <p className="text-sm text-muted-foreground">{e.school}</p>
-                      <div className="flex gap-4 mt-1 text-sm">
-                        <span className="text-primary font-medium">{e.score}</span>
-                        <span className="text-muted-foreground">{e.year}</span>
-                      </div>
+              <motion.article
+                key={e.degree}
+                variants={educationCard}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                whileHover={{ y: -6 }}
+                className="education-card group relative overflow-hidden bg-background rounded-xl p-5 border border-border hover:shadow-xl hover:border-primary/40 transition-[box-shadow,border-color] duration-300"
+              >
+                <span className="absolute right-4 top-3 font-heading text-5xl font-bold text-primary/[0.04] group-hover:text-primary/[0.08] transition-colors" aria-hidden="true">
+                  0{i + 1}
+                </span>
+
+                <div className="relative">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                      <BookOpen size={18} className="text-primary group-hover:text-primary-foreground transition-colors" />
                     </div>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground bg-secondary px-2.5 py-1.5 rounded-full">
+                      <CalendarDays size={13} /> {e.year}
+                    </span>
+                  </div>
+
+                  <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">{e.level}</p>
+                  <h4 className="font-heading font-semibold text-base leading-snug min-h-12">{e.degree}</h4>
+                  <p className="text-sm text-foreground mt-3 leading-snug">{e.school}</p>
+                  <p className="flex items-start gap-1.5 text-xs text-muted-foreground mt-2">
+                    <MapPin size={13} className="text-primary mt-0.5 shrink-0" /> {e.location}
+                  </p>
+
+                  <div className="mt-5 pt-4 border-t border-border flex items-center justify-between gap-3">
+                    <span className="text-xs text-muted-foreground">Academic result</span>
+                    <span className="inline-flex items-center gap-1.5 text-sm text-primary font-semibold">
+                      <Trophy size={14} /> {e.score}
+                    </span>
                   </div>
                 </div>
-              </TiltCard>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>

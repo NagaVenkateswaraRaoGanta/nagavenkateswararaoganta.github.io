@@ -1,63 +1,37 @@
-# Ganta Naga Venkateswara Rao – Portfolio
+# Ganta Naga Venkateswara Rao - Portfolio
 
-This repository contains my **personal portfolio website** built with modern web technologies.
+Personal portfolio showcasing my full-stack, cloud, AI, CRM and enterprise development experience.
 
-## About Me
+## Highlights
 
-I am an aspiring **Software Developer** passionate about:
+- React, TypeScript, Vite and Tailwind CSS
+- Responsive, accessible interface with reduced-motion support
+- Project case studies with working GitHub and live-demo links
+- Professional certification and achievement cards
+- Locally hosted project, certification and resume assets
+- EmailJS contact form
 
-* Cloud Computing
-* Artificial Intelligence
-* Web Development
+## Run locally
 
-This portfolio showcases my **projects, skills, certifications, and experience**.
-
-## Technologies Used
-
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-* Framer Motion
-
-## Features
-
-* Responsive modern UI
-* Animated hero section
-* Skills & certifications section
-* Project showcase
-* Resume download
-* Contact section
-
-## Run Locally
-
-Clone the repository:
-
-```
-git clone https://github.com/YOUR_USERNAME/venky-portfolio.git
-```
-
-Install dependencies:
-
-```
+```bash
 npm install
-```
-
-Start development server:
-
-```
 npm run dev
 ```
 
-Open in browser:
+Open `http://localhost:8080`.
 
-```
-http://localhost:8080
+## Quality checks
+
+```bash
+npm run lint
+npx tsc -p tsconfig.app.json --noEmit
+npm test -- --run
+npm run build
 ```
 
 ## Author
 
-**Ganta Naga Venkateswara Rao**
+Ganta Naga Venkateswara Rao
 
-GitHub: https://github.com/YOUR_USERNAME
-LinkedIn: https://linkedin.com/in/YOUR_LINKEDIN
+- [GitHub](https://github.com/NagaVenkateswaraRaoGanta)
+- [LinkedIn](https://www.linkedin.com/in/venkateswararao-ganta)

@@ -1,19 +1,9 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Download, Mail } from "lucide-react";
+import profilePhoto from "@/assets/profile.jpg";
+import PortraitFrame from "@/components/PortraitFrame";
 
 const HeroSection = () => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -20;
-    setTilt({ x: y, y: x });
-  };
-
-  const resetTilt = () => setTilt({ x: 0, y: 0 });
-
   return (
     <section id="home" className="min-h-screen flex items-center pt-20 relative overflow-hidden bg-gradient-to-br from-background via-hero-blue to-background">
       {/* Trendy background elements */}
@@ -45,7 +35,7 @@ const HeroSection = () => {
           >
             <div className="inline-block bg-hero-blue px-4 py-2 rounded-sm mb-6">
               <p className="text-sm font-medium text-muted-foreground tracking-wide uppercase">
-                Hello there, nice to meet you 💙
+                Hello there, nice to meet you
               </p>
             </div>
 
@@ -69,11 +59,11 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg font-medium text-muted-foreground mb-4">
-              Aspiring Software Engineer | Cloud & AI Enthusiast
+              Salesforce Platform Developer | SAP ABAP Cloud Developer | Google Cloud ACE | ServiceNow CSA
             </p>
 
             <p className="text-muted-foreground leading-relaxed mb-8 max-w-lg">
-              Driven by a passion for innovation and problem-solving, I am an undergraduate at Pragati Engineering College combining engineering knowledge with software development, cloud computing, and AI technologies.
+              Full Stack, Cloud, AI and CRM developer graduating in 2026, with hands-on experience in Salesforce, SAP ABAP, FastAPI, React and modern cloud technologies. Open to software engineering opportunities.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -84,9 +74,10 @@ const HeroSection = () => {
                 View Projects <ArrowRight size={16} />
               </a>
               <a
-                href="https://drive.google.com/file/d/1oqkAloq69W7KaKiOPj9u4u6yZTJcWnFN/view?usp=drive_link"
+                href={`${import.meta.env.BASE_URL}assets/GantaNagaVenkateswaraRao_Resume.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Open the latest resume in a new tab"
                 className="inline-flex items-center gap-2 border border-foreground text-foreground px-6 py-3 rounded-sm font-medium text-sm hover:bg-foreground hover:text-background transition-colors"
               >
                 <Download size={16} /> Download Resume
@@ -106,26 +97,12 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex justify-center lg:justify-end"
           >
-            <div
-              className="relative"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={resetTilt}
-              style={{
-                transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                transition: "transform 0.3s ease",
-              }}
-            >
-              <div className="w-72 h-80 md:w-96 md:h-[28rem] overflow-hidden relative">
-                <img
-                  src="https://i.postimg.cc/6pHtn6Yq/NANI-Image.jpg"
-                  alt="Ganta Naga Venkateswara Rao"
-                  className="w-full h-full object-cover rounded-2xl"
-                />
-                {/* Colored accent borders like reference */}
-                <div className="absolute -left-3 top-4 bottom-4 w-1.5 bg-primary rounded-full" />
-                <div className="absolute left-4 right-4 -bottom-3 h-1.5 bg-destructive rounded-full" />
-              </div>
-            </div>
+            <PortraitFrame
+              src={profilePhoto}
+              alt="Ganta Naga Venkateswara Rao"
+              className="w-72 h-80 md:w-96 md:h-[28rem]"
+              priority
+            />
           </motion.div>
         </div>
       </div>

@@ -1,189 +1,135 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Award, Trophy, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { Award, ExternalLink, ImageOff } from "lucide-react";
+import { cardReveal, revealTransition, revealViewport, sectionReveal, staggeredCards } from "@/lib/motion";
 
 const certifications = [
   {
+    name: "SAP Certified Backend Developer - ABAP Cloud",
+    organization: "SAP",
+    image: `${import.meta.env.BASE_URL}assets/cert-sap-abap.jpg`,
+    credential: "https://drive.google.com/file/d/1FinT3m9nxBqDUq9D4bZPzLck55OPIo8j/view",
+  },
+  {
     name: "Salesforce Certified Platform Developer",
-    image: "https://i.postimg.cc/qBwGyg91/Screenshot-2026-03-13-180945.png",
+    organization: "Salesforce",
+    image: `${import.meta.env.BASE_URL}assets/cert-salesforce-pd.jpg`,
+    credential: "https://drive.google.com/file/d/1tNbvlngNr1-v5SnP1icJ8XYnT4gDORzz/view",
+  },
+  {
+    name: "ServiceNow Certified System Administrator (CSA)",
+    organization: "ServiceNow",
+    image: `${import.meta.env.BASE_URL}assets/cert-servicenow-csa.jpg`,
+    credential: "https://drive.google.com/file/d/1WAg_KNSw3pre3x_orCHO1b3DPbAybgX4/view",
   },
   {
     name: "Google Cloud Certified Associate Cloud Engineer",
-    image: "https://i.postimg.cc/8cfPp7WS/Screenshot-2026-03-13-181016.png",
+    organization: "Google Cloud",
+    image: `${import.meta.env.BASE_URL}assets/cert-google-ace.jpg`,
+    credential: "https://drive.google.com/file/d/1Qyv7KTa5KPKZ1kVawnHFIfst00Rg1ygd/view",
   },
   {
-    name: "Zscaler Zero Trust Associate (ZTCA) Certification",
-    image: "https://i.postimg.cc/SKwmZy3w/Screenshot-2026-03-13-181157.png",
+    name: "Salesforce Certified Agentforce Specialist",
+    organization: "Salesforce",
+    image: `${import.meta.env.BASE_URL}assets/cert-salesforce-agentforce.jpg`,
+    credential: "https://drive.google.com/file/d/1u2rcX1B0PGGDJM5TICVxm90JCDO2_AN_/view",
+  },
+  {
+    name: "ServiceNow Certified Implementation Specialist (CMDM & CSDM)",
+    organization: "ServiceNow",
+    image: `${import.meta.env.BASE_URL}assets/cert-servicenow-cis.jpg`,
+    credential: "https://drive.google.com/file/d/1qq8Y2u_Dwpb6sIXlZzMsIRzylqNnel9T/view",
+  },
+  {
+    name: "Zscaler Zero Trust Cloud Associate (ZTCA)",
+    organization: "Zscaler",
+    image: `${import.meta.env.BASE_URL}assets/cert-zscaler-ztca.jpg`,
+    credential: "https://drive.google.com/file/d/1h0u4GyonXwN_nH4v0OUtBastnmgkwYLR/view",
   },
   {
     name: "Aviatrix Multi-Cloud Network Associate",
-    image: "https://i.postimg.cc/zfRrHsvc/Screenshot-2026-03-13-181047.png",
+    organization: "Aviatrix",
+    image: `${import.meta.env.BASE_URL}assets/cert-aviatrix.jpg`,
+    credential: "https://drive.google.com/file/d/1IRKbyBz2e-k5Nw47qxb0ryU3wRg-cZjy/view",
   },
 ];
 
-const otherCerts = [
-  "Salesforce AI Associate",
-  "Salesforce Agentforce Specialist",
-  "NPTEL Cloud IoT Edge ML Certification",
-];
+const CertificationImage = ({ src, name }: { src: string; name: string }) => {
+  const [hasError, setHasError] = useState(false);
 
-const achievements = [
-  "Secured 2nd Rank in III B.Tech I Semester",
-  "Participated in International Data Science Workshop",
-  "Completed National Civil 3D Workshop (IIT Varanasi)",
-];
-
-const TiltCard = ({ children, className }: { children: React.ReactNode; className?: string }) => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
-    setTilt({ x: y, y: x });
-  };
-
-  return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-      style={{
-        transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        transition: "transform 0.3s ease",
-      }}
-      className={className}
-    >
-      {children}
-    </div>
-  );
-};
-
-const CertificationsSection = () => {
-  const [selectedCert, setSelectedCert] = useState<string | null>(null);
-
-  return (
-    <section id="certifications" className="py-20">
-      <div className="container mx-auto px-6">
-        {/* Certifications */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
-            <Award size={32} className="text-primary" /> Certifications
-          </h2>
-          <div className="w-16 h-1 bg-primary mb-8 rounded-full" />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {certifications.map((c, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <TiltCard>
-                  <div
-                    className="bg-background border-2 border-primary/20 rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/50 transition-all cursor-pointer group"
-                    onClick={() => setSelectedCert(c.image)}
-                  >
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={c.image}
-                        alt={c.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="text-sm font-semibold text-foreground text-center">{c.name}</p>
-                    </div>
-                  </div>
-                </TiltCard>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Other certifications as badges */}
-          <div className="flex flex-wrap gap-3">
-            {otherCerts.map((c, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium border border-primary/20"
-              >
-                <Award size={14} /> {c}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Achievements - separate section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
-            <Trophy size={32} className="text-primary" /> Achievements
-          </h2>
-          <div className="w-16 h-1 bg-primary mb-8 rounded-full" />
-
-          <div className="grid sm:grid-cols-3 gap-4">
-            {achievements.map((a, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-3 bg-section-grey border border-border rounded-lg px-5 py-4 hover:border-primary/30 hover:shadow-md transition-all"
-              >
-                <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
-                <span className="text-sm font-medium">{a}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+  if (hasError) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center gap-3 p-6 text-center text-muted-foreground" role="img" aria-label={`${name} image unavailable`}>
+        <ImageOff size={30} className="text-primary" />
+        <span className="text-xs font-medium">Credential image unavailable</span>
       </div>
+    );
+  }
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {selectedCert && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-foreground/80 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedCert(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="relative max-w-3xl w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setSelectedCert(null)}
-                className="absolute -top-10 right-0 text-primary-foreground hover:text-primary transition-colors"
-              >
-                <X size={28} />
-              </button>
-              <img src={selectedCert} alt="Certificate" className="w-full rounded-xl shadow-2xl" />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
+  return (
+    <img
+      src={src}
+      alt={`${name} certification badge`}
+      className="w-full h-full object-contain p-4"
+      width={480}
+      height={360}
+      loading="lazy"
+      decoding="async"
+      onError={() => setHasError(true)}
+    />
   );
 };
+
+const CertificationsSection = () => (
+  <section id="certifications" className="py-20 bg-section-grey">
+    <div className="container mx-auto px-6">
+      <motion.div
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={revealViewport}
+        transition={revealTransition}
+      >
+        <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
+          <Award size={32} className="text-primary" /> Certifications
+        </h2>
+        <div className="w-16 h-1 bg-primary mb-8 rounded-full" />
+
+        <motion.div
+          variants={staggeredCards}
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {certifications.map((certification) => (
+            <motion.article
+              key={certification.name}
+              variants={cardReveal}
+              className="bg-background border border-border rounded-xl overflow-hidden hover:shadow-xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            >
+              <div className="aspect-[4/3] overflow-hidden bg-secondary">
+                <CertificationImage src={certification.image} name={certification.name} />
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">{certification.organization}</p>
+                <h3 className="font-heading font-semibold text-sm leading-snug mb-5">{certification.name}</h3>
+                <a
+                  href={certification.credential}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View credential for ${certification.name}`}
+                  className="inline-flex items-center justify-center gap-2 border border-primary text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors mt-auto"
+                >
+                  View Credential <ExternalLink size={14} />
+                </a>
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
 
 export default CertificationsSection;

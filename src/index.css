@@ -66,6 +66,27 @@
   html {
     scroll-behavior: smooth;
   }
+
+  section {
+    scroll-margin-top: 5rem;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @layer utilities {
@@ -78,4 +99,27 @@
     transform-style: preserve-3d;
     perspective: 1000px;
   }
+
+  .education-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 25%, hsl(var(--primary) / 0.06) 50%, transparent 75%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+  }
+
+  .education-card:hover::before {
+    transform: translateX(120%);
+  }
+
+  .subtle-float {
+    animation: subtle-float 5s ease-in-out infinite;
+  }
+}
+
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
 }

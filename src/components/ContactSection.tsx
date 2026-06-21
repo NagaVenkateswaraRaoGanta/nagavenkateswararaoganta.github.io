@@ -3,10 +3,12 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Github, Instagram, CheckCircle, Loader2 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
+import { revealTransition, revealViewport, sectionReveal } from "@/lib/motion";
 
 const ContactSection = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
+  const contactEmail = `gn${"ven"}${"ky"}1234@gmail.com`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +38,11 @@ const ContactSection = () => {
     <section id="contact" className="py-20 bg-section-grey">
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          transition={revealTransition}
         >
           <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">Contact</h2>
           <div className="w-16 h-1 bg-primary mb-8 rounded-full" />
@@ -51,11 +54,11 @@ const ContactSection = () => {
                 <a href="tel:+919885358998" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
                   <Phone size={18} className="text-primary" /> +91 9885358998
                 </a>
-                <a href="mailto:gnvenky1234@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                  <Mail size={18} className="text-primary" /> gnvenky1234@gmail.com
+                <a href={`mailto:${contactEmail}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                  <Mail size={18} className="text-primary" /> Email Me
                 </a>
                 <div className="flex items-center gap-3 text-muted-foreground">
-                  <MapPin size={18} className="text-primary shrink-0" /> Gollaprolu, Kakinada, AP – 533445
+                  <MapPin size={18} className="text-primary shrink-0" /> Kakinada, Andhra Pradesh, India
                 </div>
               </div>
 
@@ -85,6 +88,7 @@ const ContactSection = () => {
                 type="text"
                 name="from_name"
                 placeholder="Your Name"
+                aria-label="Your name"
                 required
                 className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:border-primary transition-colors"
               />
@@ -92,12 +96,14 @@ const ContactSection = () => {
                 type="email"
                 name="from_email"
                 placeholder="Your Email"
+                aria-label="Your email address"
                 required
                 className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:border-primary transition-colors"
               />
               <textarea
                 name="message"
                 placeholder="Your Message"
+                aria-label="Your message"
                 required
                 rows={5}
                 className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:border-primary transition-colors resize-none"
@@ -105,6 +111,7 @@ const ContactSection = () => {
               <button
                 type="submit"
                 disabled={loading}
+                aria-label={loading ? "Sending message" : "Send message"}
                 className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-medium text-sm hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
               >
                 {loading ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : "Send Message"}

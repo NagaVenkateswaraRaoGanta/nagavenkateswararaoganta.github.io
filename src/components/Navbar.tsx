@@ -6,9 +6,9 @@ const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
+  { label: "Certifications", href: "#certifications" },
+  { label: "Achievements", href: "#achievements" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -36,10 +36,10 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         <a href="#home" className="font-heading text-xl font-bold">
-          venky<span className="text-primary">.</span>
+          Nani<span className="text-primary">.</span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-7">
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -51,7 +51,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden xl:flex items-center gap-2">
           {socialLinks.map((s) => (
             <a
               key={s.label}
@@ -67,8 +67,11 @@ const Navbar = () => {
         </div>
 
         <button
-          className="md:hidden text-foreground"
+          className="lg:hidden text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-navigation"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -80,9 +83,9 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-t border-border"
+            className="lg:hidden bg-background border-t border-border"
           >
-            <div className="flex flex-col p-4 gap-3">
+            <div id="mobile-navigation" className="flex flex-col p-4 gap-3">
               {navLinks.map((l) => (
                 <a
                   key={l.href}

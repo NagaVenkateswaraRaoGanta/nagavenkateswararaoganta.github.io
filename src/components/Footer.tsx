@@ -12,15 +12,15 @@ const Footer = () => (
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <p className="font-heading font-bold text-lg">
-            venky<span className="text-primary">.</span>
+            Nani<span className="text-primary">.</span>
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            © 2026 Ganta Naga Venkateswara Rao. Built with passion.
+            © 2026 Ganta Naga Venkateswara Rao. All Rights Reserved.
           </p>
         </div>
 
-        <div className="flex gap-6 text-sm text-muted-foreground">
-          {["Home", "About", "Skills", "Projects", "Contact"].map((l) => (
+        <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+          {["Home", "About", "Skills", "Projects", "Certifications", "Achievements", "Contact"].map((l) => (
             <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-primary transition-colors">
               {l}
             </a>
